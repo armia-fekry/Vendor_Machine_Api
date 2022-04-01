@@ -1,16 +1,15 @@
 ﻿using JWT_NET_5.Common.Model;
 using JWT_NET_5.Core.Domain.Enum;
 using JWT_NET_5.Core.Domain.ProductDomain;
-using JWT_NET_5.Core.Domain.Shared;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 
 namespace JWT_NET_5.Core.Domain.UserDomain
 {
-	public class User:BaseEntity
-    {
+	public class User: IdentityUser<Guid>
+	{
 		#region Properties
-		public string UserName { get; set; }
 		public string Password { get; set; }
 		public int Deposit { get; set; }
 		public RoleEnum Role { get; set; }

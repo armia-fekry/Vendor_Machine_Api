@@ -16,6 +16,10 @@ using JWT_NET_5.Application.IReposatories;
 using JWT_NET_5.Infrastructure.Repositories;
 using JWT_NET_5.Application.Service.ProductService;
 using JWT_NET_5.Application.Service.UserService;
+using JWT_NET_5.Core.Domain.UserDomain;
+using System;
+using AutoMapper;
+using JWT_NET_5.Application.Mapping;
 
 namespace JWT_NET_5
 {
@@ -35,16 +39,12 @@ namespace JWT_NET_5
 			//It To .NET Container
 			services.Configure<JWT>(Configuration.GetSection("JWT"));
 			//Add Identity And Roles
-			services.AddIdentity<ApplicationUser,IdentityRole>()
+			services.AddIdentity<User,IdentityRole<Guid>>()
 				.AddEntityFrameworkStores<JWTDbContext>();
 			services.AddDbContext<JWTDbContext>(options =>
 					options.UseSqlServer(Configuration.GetConnectionString("Default")));
 			//Register Auth Service
-			services.AddScoped<IAuthService,AuthService>();
-			services.AddTransient<IUnitOfWork, UnitOfWork>();
-			services.AddTransient<IProductService, ProductService>();
-			services.AddTransient<IUserService, UserService>();
-			services.AddAutoMapper(typeof(Startup));
+			
 
 			#region JWT Authentication Setting
 			services.AddAuthentication(options =>
@@ -66,9 +66,14 @@ namespace JWT_NET_5
 						   ValidAudience = Configuration["JWT:Audience"],
 						   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Key"]))
 					   };
-				   }); 
+				   });
 			#endregion
 
+			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+			services.AddScoped<IAuthService, AuthService>();
+			services.AddTransient<IUnitOfWork, UnitOfWork>();
+			services.AddTransient<IProductService, ProductService>();
+			services.AddTransient<IUserService, UserService>();
 
 			services.AddControllers();
 		}

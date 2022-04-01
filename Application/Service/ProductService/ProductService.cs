@@ -4,6 +4,8 @@ using JWT_NET_5.Application.Service.ProductService.Dto;
 using JWT_NET_5.Common.Model;
 using JWT_NET_5.Core.Domain.ProductDomain;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace JWT_NET_5.Application.Service.ProductService
@@ -56,6 +58,14 @@ namespace JWT_NET_5.Application.Service.ProductService
 				.AssertionAgainstNotNullOrEmplty(name, "Invalid Product Name");
 			var product = await _unitOfWork.ProductRepository.FindAsync(e => e.ProductName == name);
 			return product is null ? null : _mapper.Map<ProductDto>(product);
+		}
+
+		public async Task<List<ProductDto>> GetProducts()
+		{
+			var productList = await _unitOfWork.ProductRepository.GetAllAsync();
+			if (productList is not null || productList.ToList().Count > 0)
+				return _mapper.Map<List<ProductDto>>(productList.ToList());
+			return null;
 		}
 
 		public async Task<ProductDto> UpdateProduct(ProductUpdateDto ProductDto)

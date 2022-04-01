@@ -8,7 +8,7 @@ namespace JWT_NET_5.Infrastructure.Configuration
 	{
 		public void Configure(EntityTypeBuilder<User> builder)
 		{
-			builder.HasKey(u=>u.Id);
+			builder.ToTable("users");
 			builder.Property(u => u.Role).IsRequired();
 			builder.Property(u => u.UserName).IsRequired();
 			builder.Property(u => u.Password).IsRequired();

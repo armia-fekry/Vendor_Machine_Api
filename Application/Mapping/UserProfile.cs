@@ -8,7 +8,13 @@ namespace JWT_NET_5.Application.Mapping
 	{
 		public UserProfile()
 		{
-			CreateMap<User, UserDto>();
+			CreateMap<User, UserDto>()
+				.ForMember(dto => dto.Id, model => model.MapFrom(e => e.Id))
+				.ForMember(dto => dto.UserName, model => model.MapFrom(e => e.UserName))
+				.ForMember(dto => dto.Deposit, model => model.MapFrom(e => e.Deposit))
+				.ForMember(dto => dto.Role, model => model.MapFrom(e => e.Role));
+			CreateMap<UserDto,User>();
+			CreateMap<UserUpdateDto, User>();
 		}
 	}
 }

@@ -14,7 +14,6 @@ namespace JWT_NET_5.Infrastructure.Configuration
 	{
 		public void Configure(EntityTypeBuilder<Product> builder)
 		{
-			builder.HasKey(x => x.Id);
 			builder.Property(e=>e.Id).IsRequired();
 			builder.Property(e=>e.Cost).IsRequired();
 			builder.Property(e=>e.Amount).IsRequired();

@@ -6,8 +6,7 @@ namespace JWT_NET_5.AuthModels
 	public class LoginModel
 	{
 		[Required]
-		[ValidateEmail]
-		public string Email { get; set; }
+		public string UserName { get; set; }
 		[Required]
 		public string Password { get; set; }
 	}
