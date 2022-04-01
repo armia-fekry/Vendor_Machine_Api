@@ -12,6 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using JWT_NET_5.Application.IReposatories;
+using JWT_NET_5.Infrastructure.Repositories;
+using JWT_NET_5.Application.Service.ProductService;
+using JWT_NET_5.Application.Service.UserService;
 
 namespace JWT_NET_5
 {
@@ -37,6 +41,10 @@ namespace JWT_NET_5
 					options.UseSqlServer(Configuration.GetConnectionString("Default")));
 			//Register Auth Service
 			services.AddScoped<IAuthService,AuthService>();
+			services.AddTransient<IUnitOfWork, UnitOfWork>();
+			services.AddTransient<IProductService, ProductService>();
+			services.AddTransient<IUserService, UserService>();
+			services.AddAutoMapper(typeof(Startup));
 
 			#region JWT Authentication Setting
 			services.AddAuthentication(options =>
@@ -52,7 +60,7 @@ namespace JWT_NET_5
 					   {
 						   ValidateIssuerSigningKey = true,
 						   ValidateIssuer = true,
-						   ValidateAudience = true,
+						   ValidateAudience = false,
 						   ValidateLifetime = true,
 						   ValidIssuer = Configuration["JWT:Issuer"],
 						   ValidAudience = Configuration["JWT:Audience"],

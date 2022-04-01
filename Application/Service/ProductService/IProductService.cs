@@ -7,10 +7,10 @@ namespace JWT_NET_5.Application.Service.ProductService
 {
 	public interface IProductService
 	{
-		Task<Product> GetProductById(Guid id);
-		Task<Product> GetProductByName(string name);
-		Task<Product> UpdateProduct(ProductUpdateDto ProductDto);
+		Task<ProductDto> GetProductById(Guid id);
+		Task<ProductDto> GetProductByName(string name);
+		Task<ProductDto> UpdateProduct(ProductUpdateDto ProductDto);
 		Task<bool> DeleteProduct(Guid id);
-		Task<Product> CreateProduct(ProductCreateDto ProductCreateDto);
+		Task<ProductDto> CreateProduct(ProductCreateDto ProductCreateDto);
 	}
 }
