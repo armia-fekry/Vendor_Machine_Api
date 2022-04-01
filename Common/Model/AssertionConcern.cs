@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JWT_NET_5.Common.Consts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,6 @@ namespace JWT_NET_5.Common.Model
 {
     public static class AssertionConcern
     {
-        private static List<int> AvailableCoins = new List<int> { 5, 10, 20, 50, 100 };
         private const string EmailRegex = @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$";
         public static void AssertionAgainstNotNull(object object1, string message)
         {
@@ -31,7 +31,7 @@ namespace JWT_NET_5.Common.Model
         }
         public static void AssertionAgainstCoins(int coins, string msg)
         {
-            if(coins == default(int) || !AvailableCoins.Contains(coins))
+            if(coins == default(int) || !AllowedCoins.GetAvailableCoins().Contains(coins))
                 throw new Exception(msg);
         }
     }

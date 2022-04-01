@@ -30,6 +30,7 @@ namespace JWT_NET_5.Application.Service.ProductService
 					, ProductCreateDto.Cost
 					, ProductCreateDto.UserId);
 			var res= await _unitOfWork.ProductRepository.AddAsync(product);
+			_unitOfWork.Complete();
 			return _mapper.Map <ProductDto>(res);
 		}
 
@@ -41,6 +42,7 @@ namespace JWT_NET_5.Application.Service.ProductService
 			var product =  _unitOfWork.ProductRepository.Find(e=>e.Id==id);
 			AssertionConcern.AssertionAgainstNotNull(product,$"No Product With Id {id}");
 			 _unitOfWork.ProductRepository.Delete(product);
+			_unitOfWork.Complete();
 			return await Task.FromResult(true);
 		}
 
@@ -68,15 +70,16 @@ namespace JWT_NET_5.Application.Service.ProductService
 			return null;
 		}
 
-		public async Task<ProductDto> UpdateProduct(ProductUpdateDto ProductDto)
+		public async Task<ProductDto> UpdateProduct(Guid id ,ProductUpdateDto ProductDto)
 		{
 			AssertionConcern
 				.AssertionAgainstNotNull(ProductDto, "Invalid Product ");
 			var oldProduct=await _unitOfWork.ProductRepository
-				.FindAsync(e => e.Id == ProductDto.Id);
+				.FindAsync(e => e.Id == id);
 			AssertionConcern
-				.AssertionAgainstNotNull(oldProduct, $"Product With Id {ProductDto.Id} Not Found");
+				.AssertionAgainstNotNull(oldProduct, $"Product With Id {id} Not Found");
 			var res = _unitOfWork.ProductRepository.Update(_mapper.Map<Product>(ProductDto));
+			_unitOfWork.Complete();
 			return res is null?null: _mapper.Map<ProductDto>(res);
 		}
 	}

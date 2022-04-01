@@ -29,7 +29,6 @@ namespace JWT_NET_5.Application.Service.UserService.Dto
 					Role = value;
 			} 
 		}
-		public ICollection<ProductDto> Products { get; set; }
 		
 	}
 }

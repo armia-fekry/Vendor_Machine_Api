@@ -71,6 +71,7 @@ namespace JWT_NET_5.Service
 			{
 				UserName = registerModel.UserName,
 				Password=registerModel.Password,
+				Role=registerModel.Role
 			};
 			var result = await _userManager.CreateAsync(user,registerModel.Password);
 			if (!result.Succeeded)

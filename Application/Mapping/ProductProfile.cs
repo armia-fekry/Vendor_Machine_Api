@@ -9,6 +9,7 @@ namespace JWT_NET_5.Application.Mapping
 		public ProductProfile()
 		{
 			CreateMap<Product, ProductDto>();
+				
 			CreateMap<ProductDto, Product>();
 			CreateMap<ProductUpdateDto, Product>();
 				

@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace JWT_NET_5.Controllers
 {
-	[Authorize(Roles ="Admin")]
-	[Route("api/products")]
+	[Authorize]
+	[Route("api")]
 	[ApiController]
 	public class ProductsController : ControllerBase
 	{
@@ -21,42 +21,42 @@ namespace JWT_NET_5.Controllers
 		{
 			_productService = productService;
 		}
-		[AllowAnonymous]
 		// GET: api/products
-		[HttpGet]
+		[HttpGet("Products")]
 		public async Task<List<ProductDto>> Get()
 		{
 			return await _productService.GetProducts();
 		}
 
 		// GET api/products/5
-		[AllowAnonymous]
-		[HttpGet("{id}")]
+		[HttpGet("Product/{id}")]
 		public async Task<ProductDto> Get(Guid id)
 		{
 			return await _productService.GetProductById(id);
 		}
 
 		// POST api/products
-		[HttpPost]
+		[HttpPost("Product")]
+		[Authorize(Roles = "Seller")]
 		public async Task<ProductDto> Post([FromBody] ProductCreateDto productCreateDto)
 		{
 			return await _productService.CreateProduct(productCreateDto);
 		}
 
 		// PUT api/products/5
-		[HttpPut("{id}")]
+		[Authorize(Roles = "Seller")]
+		[HttpPut("Product/{id}")]
 		public async Task<ActionResult<ProductDto>> Put(Guid id, [FromBody] ProductUpdateDto updateDto)
 		{
-			if (ModelState.IsValid)
+			if (!ModelState.IsValid)
 				return BadRequest("Comlete requierd Fields ");
 			AssertionConcern.AssertionAgainstNotNull(id, "Invalid Product Id");
-			updateDto.Id = id;
-			return Ok(await _productService.UpdateProduct(updateDto));
+			return Ok(await _productService.UpdateProduct(id,updateDto));
 		}
 
 		// DELETE api/products/5
-		[HttpDelete("{id}")]
+		[Authorize(Roles = "Seller")]
+		[HttpDelete("Product/{id}")]
 		public async Task<ActionResult<bool>> Delete(Guid id)
 		{
 			if (id == default(Guid)) return BadRequest("Invalid ID ");

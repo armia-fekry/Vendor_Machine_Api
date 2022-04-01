@@ -24,14 +24,14 @@ namespace JWT_NET_5.Application.Service.UserService
 		}
 		public async Task<UserDto> CreateUser(UserCreateDto userCreateDto)
 		{
-			var products = _mapper.Map<List<Product>>(userCreateDto.Products);
 			var user = User.Create(Guid.NewGuid(),
 				userCreateDto.UserName,
 				userCreateDto.Password,
 				userCreateDto.Role,
-				userCreateDto.Deposit,
-				products);
+				userCreateDto.Deposit
+				);
 			 await _unitOfWork.UserRepository.AddAsync(user);
+			_unitOfWork.Complete();
 			return _mapper.Map<UserDto>(user);
 		}
 
@@ -41,6 +41,7 @@ namespace JWT_NET_5.Application.Service.UserService
 			var user = await _unitOfWork.UserRepository.FindAsync(e => e.Id == id);
 			AssertionConcern.AssertionAgainstNotNull(user, $"Not Found User With ID {id}");
 			_unitOfWork.UserRepository.Delete(user);
+			_unitOfWork.Complete();
 			return true;
 		}
 
@@ -54,12 +55,14 @@ namespace JWT_NET_5.Application.Service.UserService
 			if (!AllowedCoins.GetAvailableCoins().Contains(coins))
 				throw new Exception("Not Allowd Coins");
 			user.Deposit = coins;
-			 return _mapper.Map<UserDto>(_unitOfWork.UserRepository.Update(user));
+			var res = _unitOfWork.UserRepository.Update(user);
+			_unitOfWork.Complete();
+			 return _mapper.Map<UserDto>(res);
    		}
 
 	public async Task<List<UserDto>> GetAllUsers()
 		{
-			var res = await _unitOfWork.UserRepository.GetAllAsync();
+			var res = await _unitOfWork.UserRepository.FindAllAsync(e=>e.Id !=default(Guid),new string[]{"Products" });
 			if(res is not null && res.ToList().Count >0)
 				return _mapper.Map<List<UserDto>>(res.ToList());
 			return null;
@@ -87,6 +90,7 @@ namespace JWT_NET_5.Application.Service.UserService
 				.AssertionAgainstNotNull(oldUser, $"User With ID {userDto.Id} , Not Found");
 			var user = _mapper.Map<User>(userDto);
 			var res= _unitOfWork.UserRepository.Update(user);
+			_unitOfWork.Complete();
 			return _mapper.Map<UserDto>(user);
 		}
 	}
