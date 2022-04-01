@@ -1,4 +1,4 @@
-﻿namespace JWT_NET_5.Core.Consts
+﻿namespace JWT_NET_5.Application.Consts
 {
 	public static class OrderBy
     {

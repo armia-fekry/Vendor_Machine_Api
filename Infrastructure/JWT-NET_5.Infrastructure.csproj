@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Application\JWT_NET_5.Application.csproj" />
     <ProjectReference Include="..\Core\JWT-NET_5.Core.csproj" />
   </ItemGroup>
 

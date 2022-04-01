@@ -1,10 +1,10 @@
-﻿using JWT_NET_5.Core.Consts;
+﻿using JWT_NET_5.Application.Consts;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace JWT_NET_5.Core.IReposatories
+namespace JWT_NET_5.Application.IReposatories
 {
 	public interface IBaseRepository<T> where T : class
     {

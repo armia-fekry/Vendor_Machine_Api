@@ -1,4 +1,4 @@
-using JWT_NET_5.EntityFrameork.Data;
+using JWT_NET_5.Infrastructure.Data;
 using JWT_NET_5.EntityFrameork.Identity;
 using JWT_NET_5.Helper;
 using JWT_NET_5.Service;
