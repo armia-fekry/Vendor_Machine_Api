@@ -1,4 +1,5 @@
-﻿using JWT_NET_5.Common.Model;
+﻿using JWT_NET_5.Common.Consts;
+using JWT_NET_5.Common.Model;
 using JWT_NET_5.Core.Domain.Enum;
 using JWT_NET_5.Core.Domain.ProductDomain;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +13,7 @@ namespace JWT_NET_5.Core.Domain.UserDomain
 		#region Properties
 		public string Password { get; set; }
 		public int Deposit { get; set; }
-		public RoleEnum Role { get; set; }
+		public string Role { get; set; }
 		public ICollection<Product> Products { get; set; }
 		#endregion
 
@@ -21,7 +22,7 @@ namespace JWT_NET_5.Core.Domain.UserDomain
 
 		}
 		public User(Guid id,string userName
-			,string password,RoleEnum role
+			,string password,string role,int coins
 			,List<Product> products)
 		{
 			AssertionConcern.AssertionAgainstNotNull(id, "Invalid User Id");
@@ -33,19 +34,27 @@ namespace JWT_NET_5.Core.Domain.UserDomain
 			UserName=userName;
 			Password=password;
 			Role=role;
+			SetDeposit(coins);
 			SetProducts(products);
 		}
 		public static User Create(Guid id, string userName
-			, string password, RoleEnum role
-			, List<Product> products)
+			, string password, string role,int coins=0
+			, List<Product> products=null)
 		{
-			return new(id, userName, password,role,products);
+			return new(id, userName, password,role,coins,products);
 		}
 		private void SetProducts(List<Product> products)
 		{
-			if (Role != RoleEnum.Seller)
+			if (Role != "Seller")
 				throw new Exception("Can not add products");
 			Products = products;
 		}
+		private void SetDeposit(int coins)
+		{
+			if (AllowedCoins.GetAvailableCoins().Contains(coins))
+				throw new Exception($"Cannot add this Coins,Allowed Coins {string.Join(',',AllowedCoins.GetAvailableCoins())}");
+			Deposit = coins;
+		}
+
 	}
 }

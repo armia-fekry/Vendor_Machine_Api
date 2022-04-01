@@ -72,5 +72,12 @@ namespace JWT_NET_5.Controllers
 			if (userId == default(Guid)) return BadRequest("Invalid ID ");
 			return Ok(await _userService.Deposit(userId,coins));
 		}
+		[Authorize(Roles = "Buyer")]
+		[HttpPost("User/resetdeposit")]
+		public async Task<ActionResult<UserDto>> ResetDeposit(Guid userId)
+		{
+			if (userId == default(Guid)) return BadRequest("Invalid ID ");
+			return Ok(await _userService.Deposit(userId, 0));
+		}
 	}
 }

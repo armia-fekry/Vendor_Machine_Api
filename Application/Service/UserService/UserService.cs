@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using JWT_NET_5.Application.Consts;
 using JWT_NET_5.Application.IReposatories;
 using JWT_NET_5.Application.Service.UserService.Dto;
+using JWT_NET_5.Common.Consts;
 using JWT_NET_5.Common.Model;
 using JWT_NET_5.Core.Domain.ProductDomain;
 using JWT_NET_5.Core.Domain.UserDomain;
@@ -27,6 +29,7 @@ namespace JWT_NET_5.Application.Service.UserService
 				userCreateDto.UserName,
 				userCreateDto.Password,
 				userCreateDto.Role,
+				userCreateDto.Deposit,
 				products);
 			 await _unitOfWork.UserRepository.AddAsync(user);
 			return _mapper.Map<UserDto>(user);
@@ -48,9 +51,10 @@ namespace JWT_NET_5.Application.Service.UserService
 			var user = await _unitOfWork.UserRepository
 				.FindAsync(e => e.Id == userId);
 			AssertionConcern.AssertionAgainstNotNull(user, $"Not Founded User ID {userId}");
+			if (!AllowedCoins.GetAvailableCoins().Contains(coins))
+				throw new Exception("Not Allowd Coins");
 			user.Deposit = coins;
 			 return _mapper.Map<UserDto>(_unitOfWork.UserRepository.Update(user));
-
    		}
 
 	public async Task<List<UserDto>> GetAllUsers()

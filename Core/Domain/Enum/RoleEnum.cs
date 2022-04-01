@@ -1,7 +1,7 @@
 ﻿namespace JWT_NET_5.Core.Domain.Enum
 {
-	public enum RoleEnum
+	public class Roles
     {
-        Buyer=2,Seller=4
+        enum RoleNumber { Buyer = 2, Seller = 4 }
     }
 }
