@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using JWT_NET_5.Application.Consts;
 using JWT_NET_5.Application.IReposatories;
 using JWT_NET_5.Application.Service.UserService.Dto;
 using JWT_NET_5.Common.Consts;
 using JWT_NET_5.Common.Model;
-using JWT_NET_5.Core.Domain.ProductDomain;
 using JWT_NET_5.Core.Domain.UserDomain;
 using System;
 using System.Collections.Generic;
@@ -22,6 +20,33 @@ namespace JWT_NET_5.Application.Service.UserService
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 		}
+
+		public async  Task<string> Buy(Guid UserId,Guid productId, int amountOfProduct)
+		{
+			AssertionConcern
+				.AssertionAgainstNullGuid(productId, "invalid product Id");
+			var user = await _unitOfWork.UserRepository
+				.FindAsync(e => e.Id == UserId);
+			AssertionConcern.AssertionAgainstNotNull(user,
+					$"Coudnot Found User With Id {UserId}");
+			var userDeposit = user.Deposit;
+			var product= await _unitOfWork.ProductRepository
+				.FindAsync(p=>p.Id==productId);
+			AssertionConcern.AssertionAgainstNotNull(product,
+					$"Coudnot Found User With Id {productId}");
+			if (amountOfProduct > product.Amount)
+				throw new Exception($"the availble amount of {product.ProductName} is {product.Amount}");
+			if (user.Deposit < product.Cost * amountOfProduct)
+				throw new Exception($"enter more coins please");
+			user.Deposit = user.Deposit - product.Cost * amountOfProduct;
+			product.Amount = product.Amount - amountOfProduct;
+			_unitOfWork.ProductRepository.Update(product);
+			_unitOfWork.UserRepository.Update(user);
+			_unitOfWork.Complete();
+			return $"You Spent {product.Cost * amountOfProduct} from your deposit";
+
+		}
+
 		public async Task<UserDto> CreateUser(UserCreateDto userCreateDto)
 		{
 			var user = User.Create(Guid.NewGuid(),

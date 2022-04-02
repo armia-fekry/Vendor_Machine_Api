@@ -13,7 +13,7 @@ namespace JWT_NET_5.Application.Service.UserService.Dto
 		[Required, MaxLength(32)]
 		public string Password { get; set; }
 		[ValidateCoin]
-		public int Deposit { get; set; }
+		public double Deposit { get; set; }
 		[Required]
 		public string Role {
 			get 

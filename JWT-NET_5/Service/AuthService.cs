@@ -56,6 +56,7 @@ namespace JWT_NET_5.Service
 			authModel.Email = user.Email;
 			authModel.IsAuthenticated = true;
 			authModel.Roles = roles.ToList();
+			authModel.UserId=user.Id;
 			authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 			authModel.ExpireOn = jwtSecurityToken.ValidTo;
 			
@@ -69,6 +70,7 @@ namespace JWT_NET_5.Service
 				return new AuthModel() { Message="This Name Is Used Before,Try Another Name !!"};
 			var user = new User()
 			{
+				Id=Guid.NewGuid(),
 				UserName = registerModel.UserName,
 				Password=registerModel.Password,
 				Role=registerModel.Role
@@ -85,6 +87,7 @@ namespace JWT_NET_5.Service
 			return new AuthModel()
 			{
 				UserName = user.UserName,
+				UserId=user.Id,
 				IsAuthenticated = true,
 				Roles = new List<string>{registerModel.Role },
 				Token=new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),

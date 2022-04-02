@@ -18,7 +18,7 @@ namespace JWT_NET_5.Core.Domain.ProductDomain
 
 		}
 		public Product(Guid id, string productName
-			, int amount, int cost, Guid userId) : this()
+			, int amount, double cost, Guid userId) : this()
 		{
 			AssertionConcern.AssertionAgainstNotNull(id, "Inavlid product Id");
 			AssertionConcern.AssertionAgainstNotNullOrEmplty(productName, "Invalid Product Name");
@@ -33,7 +33,7 @@ namespace JWT_NET_5.Core.Domain.ProductDomain
 		}
 
 		public static Product Create(Guid id, string productName
-			, int amount, int cost, Guid userId)
+			, int amount, double cost, Guid userId)
 		{
 			return new(id, productName, amount, cost, userId);
 		}

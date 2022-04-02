@@ -12,7 +12,7 @@ namespace JWT_NET_5.Core.Domain.UserDomain
 	{
 		#region Properties
 		public string Password { get; set; }
-		public int Deposit { get; set; }
+		public double Deposit { get; set; }
 		public string Role { get; set; }
 		public ICollection<Product> Products { get; set; }
 		#endregion
@@ -22,7 +22,7 @@ namespace JWT_NET_5.Core.Domain.UserDomain
 
 		}
 		public User(Guid id,string userName
-			,string password,string role,int coins
+			,string password,string role,double coins
 			,List<Product> products)
 		{
 			AssertionConcern.AssertionAgainstNotNull(id, "Invalid User Id");
@@ -38,7 +38,7 @@ namespace JWT_NET_5.Core.Domain.UserDomain
 			SetProducts(products);
 		}
 		public static User Create(Guid id, string userName
-			, string password, string role,int coins=0
+			, string password, string role,double coins=0
 			, List<Product> products=null)
 		{
 			return new(id, userName, password,role,coins,products);
@@ -49,9 +49,9 @@ namespace JWT_NET_5.Core.Domain.UserDomain
 				throw new Exception("Can not add products");
 			Products = products;
 		}
-		private void SetDeposit(int coins)
+		private void SetDeposit(double coins)
 		{
-			if (AllowedCoins.GetAvailableCoins().Contains(coins))
+			if (AllowedCoins.GetAvailableCoins().Contains(Convert.ToInt32(coins)))
 				throw new Exception($"Cannot add this Coins,Allowed Coins {string.Join(',',AllowedCoins.GetAvailableCoins())}");
 			Deposit = coins;
 		}

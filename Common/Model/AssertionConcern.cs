@@ -16,6 +16,11 @@ namespace JWT_NET_5.Common.Model
             if(object1 is null)
                 throw new ArgumentNullException(nameof(object1));
         }
+        public static void AssertionAgainstNullGuid(Guid object1, string message)
+        {
+            if (object1==default(Guid))
+                throw new ArgumentNullException($"{nameof(object1)} {message}");
+        }
         public static void AssertionAgainstNotNullOrEmplty(string object1, string message)
         {
             if (string.IsNullOrEmpty(object1))

@@ -2,9 +2,11 @@
 using JWT_NET_5.Application.Service.UserService.Dto;
 using JWT_NET_5.Common.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -16,10 +18,12 @@ namespace JWT_NET_5.Controllers
 	public class UserController : ControllerBase
 	{
 		private readonly IUserService _userService;
+		private readonly IHttpContextAccessor _httpContext;
 
-		public UserController(IUserService userService)
+		public UserController(IUserService userService, IHttpContextAccessor httpContext)
 		{
 			_userService = userService;
+			_httpContext = httpContext;
 		}
 		
 		// GET: api/Users
@@ -78,6 +82,18 @@ namespace JWT_NET_5.Controllers
 		{
 			if (userId == default(Guid)) return BadRequest("Invalid ID ");
 			return Ok(await _userService.Deposit(userId, 0));
+		}
+		[Authorize(Roles = "Buyer")]
+		[HttpPost("User/Buy")]
+		public async Task<ActionResult<string>> Buy(Guid productId,int amountOfProduct)
+		{
+			var UserId = _httpContext.HttpContext?.User.Claims.
+				FirstOrDefault(e => e.Type == "uid")?.Value;
+			AssertionConcern.AssertionAgainstNotNull(UserId, "Invalid User Id");
+			if (amountOfProduct < 1)
+				return BadRequest("please enter amount of product you need");
+			var res = await _userService.Buy(Guid.Parse(UserId), productId, amountOfProduct);
+			return Ok(res);
 		}
 	}
 }

@@ -1,5 +1,4 @@
 ﻿using JWT_NET_5.Application.Service.UserService.Dto;
-using JWT_NET_5.Core.Domain.UserDomain;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,5 +14,6 @@ namespace JWT_NET_5.Application.Service.UserService
         Task<UserDto> CreateUser(UserCreateDto userCreateDto);
         Task<List<UserDto>> GetAllUsers();
 		Task<UserDto> Deposit(Guid userId,int coins);
+		Task<string> Buy(Guid UserId,Guid productId,int amountOfProduct);
 	}
 }

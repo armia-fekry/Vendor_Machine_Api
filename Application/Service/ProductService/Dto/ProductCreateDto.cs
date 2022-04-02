@@ -14,7 +14,7 @@ namespace JWT_NET_5.Application.Service.ProductService.Dto
 		[Required]
 		public int Amount { get; set; }
 		[Required]
-		public int Cost { get; set; }
+		public double Cost { get; set; }
 		[Required]
 		public Guid UserId { get; set; }
 	}

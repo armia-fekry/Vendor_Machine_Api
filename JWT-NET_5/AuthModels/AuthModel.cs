@@ -13,5 +13,6 @@ namespace JWT_NET_5.Data.AuthModels
 		public string Token { get; set; }
 		public int ExpireDuration { get; set; }
 		public DateTime ExpireOn { get; set; }
+		public Guid UserId { get;  set; }
 	}
 }
