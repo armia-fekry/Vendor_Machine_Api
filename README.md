@@ -6,7 +6,7 @@ requierd
 Clone Application To VisualStudio 
 open package manger console 
 run update-database
-import postman environment 
+import postman environment file with name VendorMachineTest 
 regiter users 
 login 
 try other endpoints
