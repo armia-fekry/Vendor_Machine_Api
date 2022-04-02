@@ -1,0 +1,412 @@
+{
+	"info": {
+		"_postman_id": "c0e6d9ae-ed4b-479e-bc84-6682f87d33d4",
+		"name": "VendorMachine Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Add Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ProductName\":\"product2\"\r\n    ,\"Amount\":5\r\n    ,\"cost\":10\r\n    ,\"userId\":\"356e1606-77b8-464b-a18b-387d2d3691c4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/product",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ProductName\":\"product1\"\r\n    ,\"Amount\":5\r\n    ,\"cost\":10\r\n    ,\"userId\":\"d179f6b6-442b-4c6c-e185-08da140cd9f1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/products",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ProductName\":\"product1\"\r\n    ,\"Amount\":5\r\n    ,\"cost\":10\r\n    ,\"userId\":\"d179f6b6-442b-4c6c-e185-08da140cd9f1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/product/ac132b7e-0828-4bb1-9d74-68ce16529d57",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"ac132b7e-0828-4bb1-9d74-68ce16529d57"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ProductName\":\"product1\"\r\n    ,\"Amount\":5\r\n    ,\"cost\":10\r\n    ,\"userId\":\"d179f6b6-442b-4c6c-e185-08da140cd9f1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/product/ac132b7e-0828-4bb1-9d74-68ce16529d57",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"ac132b7e-0828-4bb1-9d74-68ce16529d57"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ProductName\":\"product1\"\r\n    ,\"Amount\":5\r\n    ,\"cost\":10\r\n    ,\"userId\":\"d179f6b6-442b-4c6c-e185-08da140cd9f1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/product",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"product"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/Users",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"Users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/users/1620a06e-f59c-4e21-85a3-08da1409cc28",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1620a06e-f59c-4e21-85a3-08da1409cc28"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"Token\", data.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"UserName\":\"armia\",\r\n    \"password\":\"jesusAMurson0$\"\r\n \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/auth/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AssignRole To User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userid\":\"\",\r\n    \"role\":\"Buyer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/auth/AssignRole",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"AssignRole"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add USer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"armia\"\r\n    ,\"Password\":\"jesusAMurson0$\"\r\n    ,\"role\":\"buyer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/auth/register",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"zaki\"\r\n    ,\"Password\":\"jesusAMurson0$\"\r\n    ,\"role\":\"seller\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/user/356e1606-77b8-464b-a18b-387d2d3691c4",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"356e1606-77b8-464b-a18b-387d2d3691c4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deposit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}api/User/deposit?userId=1620a06e-f59c-4e21-85a3-08da1409cc28&coins=56",
+							"host": [
+								"{{BaseUrl}}api"
+							],
+							"path": [
+								"User",
+								"deposit"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1620a06e-f59c-4e21-85a3-08da1409cc28"
+								},
+								{
+									"key": "coins",
+									"value": "56"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}api/User/deposit?userId=1620a06e-f59c-4e21-85a3-08da1409cc28&coins=56",
+							"host": [
+								"{{BaseUrl}}api"
+							],
+							"path": [
+								"User",
+								"deposit"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1620a06e-f59c-4e21-85a3-08da1409cc28"
+								},
+								{
+									"key": "coins",
+									"value": "56"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{Token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
